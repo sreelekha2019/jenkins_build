@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.sree.app</groupId>
+	<artifactId>codeapp</artifactId>
+	<version>1.2</version>
+	<packaging>jar</packaging>
+
+	<name>moria-spring-cloud</name>
+	<description>a maven archetype for moria spring cloud service</description>
+	<url>https://github.com/AaronFSJ/spring-cloud-moria-archetype</url>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.3.RELEASE</version>
+		<!--<version>1.5.12.RELEASE</version>--> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<mybatis.spring.boot.version>1.3.2</mybatis.spring.boot.version>
+		<mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
+		<mybatisplus.version>2.1.4</mybatisplus.version>
+		<mysql.version>5.1.38</mysql.version>
+		<druid.version>1.1.3</druid.version>
+		<commons.io.version>2.5</commons.io.version>
+		<commons.configuration.version>1.10</commons.configuration.version>
+		<fastjson.version>1.2.31</fastjson.version>
+		<velocity.version>1.7</velocity.version>
+		<mainPath>com.sree.app</mainPath>
+	</properties>
+
+	<dependencies>
+		<!-- spring boot基础包 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+
+		<!-- 添加spring cloud负载均衡支持 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+		</dependency>
+
+		<!-- 添加spring cloud 模板化的HTTP客户端 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+		<!--<dependency>-->
+		<!--<groupId>org.springframework.cloud</groupId>-->
+		<!--<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
+		<!--</dependency>-->
+
+		<!-- 添加zipkin -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-zipkin</artifactId>
+		</dependency>
+
+		<!-- 添加mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- 添加druid数据库连接池 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid-spring-boot-starter</artifactId>
+			<version>1.1.9</version>
+		</dependency>
+
+		<!-- 添加mybatis -->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>${mybatis.spring.boot.version}</version>
+		</dependency>
+
+		<!-- mybatis-plus begin -->
+		<!-- mybatis-plus 是对mybatis的增强，提供了很多注解使用，可以不引用 -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatisplus-spring-boot-starter</artifactId>
+			<version>${mybatisplus-spring-boot-starter.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus</artifactId>
+			<version>${mybatisplus.version}</version>
+		</dependency>
+		<!--mybatis-plus end-->
+
+		<!-- 添加servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+		</dependency>
+
+		<!-- 添加http核心包 -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.4.9</version>
+		</dependency>
+
+		<!-- 添加log4j日志 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+
+		<!--io包-->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons.io.version}</version>
+		</dependency>
+
+		<!--alibaba json解析-->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
+		</dependency>
+
+		<!--模版，用于代码生成-->
+		<dependency>
+			<artifactId>velocity</artifactId>
+			<groupId>org.apache.velocity</groupId>
+			<version>${velocity.version}</version>
+		</dependency>
+
+		<!--监控-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!--熔断器/断路器-->
+		<!--<dependency>-->
+		<!--<groupId>org.springframework.cloud</groupId>-->
+		<!--<artifactId>spring-cloud-starter-hystrix</artifactId>-->
+		<!--<version>2.0.3.RELEASE</version>-->
+		<!--</dependency>-->
+
+
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<developers>
+		<developer>
+			<id>fengshaojuan</id>
+			<name>fengshaojuan</name>
+			<email>fengshaojuan@foreveross.com</email>
+			<url>https://github.com/AaronFSJ/</url>
+			<organization>www.foreveross.com</organization>
+			<organizationUrl>http://www.foreveross.com/</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git@github.com:AaronFSJ/spring-cloud-moria-archetype.git</connection>
+		<developerConnection>scm:git:git@github.com:AaronFSJ/spring-cloud-moria-archetype.git</developerConnection>
+		<url>git:git@github.com:AaronFSJ/spring-cloud-moria-archetype.git</url>
+	</scm>
+
+	<!-- distributionManagement在上传时一定要用到，但通过mvn archetype:create-from-project生成的archetype下的不会有此标签，因此要手动修改archetype  -->
+	<distributionManagement>
+		<snapshotRepository>
+			<id>oss</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>oss</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<!-- Source -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-archetype-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
+
+			<!-- Javadoc -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- GPG -->
+			<!--<plugin>-->
+			<!--<groupId>org.apache.maven.plugins</groupId>-->
+			<!--<artifactId>maven-gpg-plugin</artifactId>-->
+			<!--<version>1.6</version>-->
+			<!--<executions>-->
+			<!--<execution>-->
+			<!--<phase>verify</phase>-->
+			<!--<goals>-->
+			<!--<goal>sign</goal>-->
+			<!--</goals>-->
+			<!--</execution>-->
+			<!--</executions>-->
+			<!--</plugin>-->
+		</plugins>
+
+	</build>
+
+	<repositories>
+		<repository>
+			<id>public</id>
+			<name>aliyun nexus</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<releases>
+			</releases>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>public</id>
+			<name>aliyun nexus</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<releases>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+
+</project>

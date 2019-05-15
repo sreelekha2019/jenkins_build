@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="war.core.goods.dao.GoodsDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="war.core.goods.entity.GoodsEntity" id="goodsMap">
+        <result property="goodsId" column="goods_id"/>
+        <result property="goodsName" column="goods_name"/>
+        <result property="totol" column="totol"/>
+        <result property="sold" column="sold"/>
+        <result property="surplus" column="surplus"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="war.core.goods.entity.GoodsEntity">
+		select * from goods where goods_id = #{value}
+	</select>
+
+	<select id="queryList" resultType="war.core.goods.entity.GoodsEntity">
+		select * from goods
+        <choose>
+            <when test="orderValue != null and orderValue.trim() != ''">
+                order by ${orderValue} ${order}
+            </when>
+			<otherwise>
+                order by goods_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from goods 
+	</select>
+	 
+	<insert id="save" parameterType="war.core.goods.entity.GoodsEntity" useGeneratedKeys="true" keyProperty="goodsId">
+		insert into goods
+		(
+			`goods_name`, 
+			`totol`, 
+			`sold`, 
+			`surplus`, 
+			`create_time`
+		)
+		values
+		(
+			#{goodsName}, 
+			#{totol}, 
+			#{sold}, 
+			#{surplus}, 
+			#{createTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="war.core.goods.entity.GoodsEntity">
+		update goods 
+		<set>
+			<if test="goodsName != null">`goods_name` = #{goodsName}, </if>
+			<if test="totol != null">`totol` = #{totol}, </if>
+			<if test="sold != null">`sold` = #{sold}, </if>
+			<if test="surplus != null">`surplus` = #{surplus}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}</if>
+		</set>
+		where goods_id = #{goodsId}
+	</update>
+	
+	<delete id="delete">
+		delete from goods where goods_id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from goods where goods_id in 
+		<foreach item="goodsId" collection="array" open="(" separator="," close=")">
+			#{goodsId}
+		</foreach>
+	</delete>
+
+</mapper>

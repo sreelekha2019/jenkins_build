@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true" scanPeriod="30 seconds">
+    <!--<include resource="org/springframework/boot/logging/logback/base.xml" />-->
+    <springProperty scope="context" name="logLevel" source="logging.level"/>
+    <springProperty scope="context" name="logPath" source="logging.path"/>
+
+    <!-- 彩色日志 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <!--<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />-->
+    <!--<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />-->
+    <!--<conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />-->
+    <!-- 彩色日志格式 -->
+    <!--<property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(-&#45;&#45;){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />-->
+
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <!--<Pattern>.%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n</Pattern>-->
+            <!--<pattern>${CONSOLE_LOG_PATTERN}</pattern>-->
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+    </appender>
+
+
+    <!-- 日志文件输出，如果不定义按spring boot默认输出 -->
+    <!--<appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--<File>${logPath}/moria.log</File>-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--&lt;!&ndash; daily rollover &ndash;&gt;-->
+            <!--<FileNamePattern>${logPath}/moria.%d{yyyy-MM-dd}.log</FileNamePattern>-->
+            <!--&lt;!&ndash; tomcat部署日志输出位置 &ndash;&gt;-->
+            <!--&lt;!&ndash;<FileNamePattern>>${catalina.home}/logs/crhc.%d{yyyy-MM-dd}.log</FileNamePattern>&ndash;&gt;-->
+            <!--&lt;!&ndash; keep 30 days' worth of history &ndash;&gt;-->
+            <!--<maxHistory>30</maxHistory>-->
+        <!--</rollingPolicy>-->
+        <!--<encoder>-->
+            <!--<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>-->
+            <!--<charset>UTF-8</charset>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+    <!-- 不同环境配置不同的日志级别 -->
+
+    <!-- 开发环境日志级别 -->
+    <springProfile name="dev">
+        <root level="${logLevel}">
+            <appender-ref ref="consoleAppender"/>
+        </root>
+        <logger name="org.springframework" level="INFO" />
+        <logger name="war" level="DEBUG" />
+        <logger name="dao" level="INFO" />
+    </springProfile>
+
+    <!-- 测试环境日志级别 -->
+    <springProfile name="test">
+        <root level="${logLevel}">
+            <appender-ref ref="consoleAppender"/>
+        </root>
+        <logger name="dao" level="DEBUG"/>
+    </springProfile>
+
+    <!-- 生产环境日志级别 -->
+    <springProfile name="pro">
+        <root level="${logLevel}">
+            <appender-ref ref="consoleAppender"/>
+            <appender-ref ref="dailyRollingFileAppender" />
+        </root>
+        <logger name="war" level="INFO" />
+    </springProfile>
+
+
+
+</configuration>

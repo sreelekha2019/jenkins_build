@@ -1,0 +1,102 @@
+package ${package}.${moduleName}.controller;
+
+import java.util.List;
+import java.util.Map;
+import io.swagger.annotations.*;
+import io.moria.common.base.BaseReturnDTO;
+
+##import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.service.${className}Service;
+import ${mainPath}.common.utils.PageUtils;
+import ${mainPath}.common.utils.Query;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+
+
+
+/**
+ * @Auther: ${author}
+ * @Date: ${datetime}
+ * @Description: ${comments}
+ */
+@Api(value="/${moduleName}/", tags="${comments}",description = "${comments}")
+@RestController
+@RequestMapping("/${moduleName}")
+public class ${className}Controller {
+	@Autowired
+	private ${className}Service ${classname}Service;
+
+    @ApiOperation(value="查询${comments}列表", notes = "查询${comments}列表")
+    @ApiImplicitParam(paramType = "query", dataType = "String", name = "params", value = "page代表当前页数，limit代表每页记录数，其他对应实体类字段", defaultValue = "{\"page\":1,\"limit\":10,\"${pk.attrname}\":1}")
+    @GetMapping("/${classname}")
+	public ResponseEntity<PageUtils> list(@RequestParam Map<String, Object> params){
+		//查询列表数据
+
+        HttpStatus status =  HttpStatus.NOT_FOUND;
+        Query query = new Query(params);
+        List<${className}Entity> ${classname}List = ${classname}Service.queryList(query);
+        int total = ${classname}Service.queryTotal(query);
+        if(${classname}List != null && ${classname}List.size() >0){
+            status = HttpStatus.OK;
+        }
+
+        PageUtils pageUtil = new PageUtils(${classname}List, total, query.getLimit(), query.getPage());
+
+        return new ResponseEntity<PageUtils>(pageUtil,status);
+	}
+	
+	
+	/**
+	 * 信息
+	 */
+    @ApiOperation(value="查询${comments}详情", notes = "查询${comments}详情")
+	@GetMapping("/${classname}/{${pk.attrname}}")
+	public ResponseEntity<${className}Entity> info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
+		${className}Entity ${classname} = ${classname}Service.queryObject(${pk.attrname});
+        HttpStatus status = ${classname} !=null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return new ResponseEntity<${className}Entity>(${classname},status);
+	}
+	
+	/**
+	 * 保存
+	 */
+    @ApiOperation(value="添加${comments}", notes = "添加${comments}")
+	@PostMapping("/${classname}")
+	public ResponseEntity<${className}Entity> save(@RequestBody ${className}Entity ${classname}){
+
+	    ${classname}Service.save(${classname});
+        HttpStatus status =  HttpStatus.CREATED;
+        return new ResponseEntity(${classname},status);
+	}
+	
+	/**
+	 * 修改
+	 */
+    @ApiOperation(value="修改${comments}", notes = "修改${comments}")
+	@PatchMapping("/${classname}/{${pk.attrname}}")
+	public ResponseEntity update(@RequestBody ${className}Entity ${classname}){
+        HttpStatus status =  HttpStatus.NO_CONTENT;
+        ${classname}Service.update(${classname});
+        return new ResponseEntity(status);
+	}
+	
+	/**
+	 * 删除
+	 */
+    @ApiOperation(value="删除${comments}", notes = "删除${comments}")
+    @ApiImplicitParam( dataType = "Array[Long]", name = "${pk.attrname}s",value = "可批量删除，入参例子：[1,2]",defaultValue = "[1]")
+	@DeleteMapping("/${classname}")
+	public ResponseEntity delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
+
+
+        HttpStatus status =  HttpStatus.NO_CONTENT;
+        ${classname}Service.deleteBatch(${pk.attrname}s);
+        return new ResponseEntity(status);
+	}
+	
+}
